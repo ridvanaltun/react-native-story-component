@@ -1,0 +1,149 @@
+{
+  "name": "react-native-story-component",
+  "title": "React Native Story Component",
+  "version": "0.0.0",
+  "description": "Story component for React Native.",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "index",
+  "source": "index",
+  "files": [
+    "README.md",
+    "index.js",
+    "src",
+    "lib",
+    "!example",
+    "!lib/typescript/example"
+  ],
+  "scripts": {
+    "prepare": "bob build",
+    "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "example": "yarn --cwd example",
+    "bootstrap": "yarn example && yarn",
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ridvanaltun/react-native-story-component.git",
+    "baseUrl": "https://github.com/ridvanaltun/react-native-story-component"
+  },
+  "keywords": [
+    "react-native",
+    "story"
+  ],
+  "author": {
+    "name": "Rıdvan Altun",
+    "email": "ridvanaltun@outlook.com"
+  },
+  "readmeFilename": "README.md",
+  "peerDependencies": {
+    "react": ">=16.8.1",
+    "react-native": ">=0.60.0-rc.0 <1.0.x"
+  },
+  "dependencies": {
+    "prop-types": "^15.8.1",
+    "react-native-modalbox": "^2.0.2",
+    "react-native-swipe-gestures": "^1.0.5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.1",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/react": "^18.0.9",
+    "@types/react-native": "^0.67.7",
+    "@types/react-native-modalbox": "^1.4.10",
+    "commitizen": "^4.2.4",
+    "commitlint": "^17.0.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "husky": "^4.3.8",
+    "prettier": "^2.6.2",
+    "react": "^16.9.0",
+    "react-native": "^0.61.5",
+    "react-native-builder-bob": "^0.18.2",
+    "release-it": "^15.0.0",
+    "typescript": "^4.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn lint && yarn typescript"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@react-native-community",
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "quoteProps": "consistent",
+          "singleQuote": true,
+          "tabWidth": 2,
+          "trailingComma": "es5",
+          "useTabs": false
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/",
+    "*.js"
+  ],
+  "prettier": {
+    "quoteProps": "consistent",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version} [ci skip]",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular"
+      }
+    }
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}

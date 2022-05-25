@@ -1,0 +1,16 @@
+{
+  "name": "react-native-story-component-example",
+  "displayName": "Story Component Example",
+  "expo": {
+    "name": "react-native-story-component-example",
+    "slug": "react-native-story-component-example",
+    "description": "Example app for react-native-story-component",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": ["**/*"]
+  }
+}
