@@ -53,6 +53,7 @@
     "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^17.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^27.5.1",
     "@types/react": "^18.0.9",
     "@types/react-native": "^0.67.7",
