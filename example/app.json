@@ -7,10 +7,17 @@
     "description": "Example app for react-native-story-component",
     "privacy": "public",
     "version": "1.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "ios": {
       "supportsTablet": true
     },
-    "assetBundlePatterns": ["**/*"]
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "githubUrl": "https://github.com/ridvanaltun/react-native-story-component/tree/master/example"
   }
 }
