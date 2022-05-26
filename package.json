@@ -1,7 +1,7 @@
 {
   "name": "react-native-story-component",
   "title": "React Native Story Component",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Story component for React Native.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
