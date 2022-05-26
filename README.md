@@ -65,13 +65,13 @@ const App = () => {
           stories: [
             {
               id: 1,
-              image: 'https://picsum.photos/1080/1920',
+              image: 'https://images.unsplash.com/photo-1510215744419-742d9dce947f?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8MTA4MHgxOTIwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200',,
               swipeText: 'Custom swipe text for this story',
               onPress: () => console.log('story 1 swiped'),
             },
             {
               id: 2,
-              image: 'https://picsum.photos/1080/1920',
+              image: 'https://images.unsplash.com/photo-1493509094819-bd2d26fac21b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8MTA4MHgxOTIwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200',
             },
           ],
         },
@@ -82,13 +82,13 @@ const App = () => {
           stories: [
             {
               id: 1,
-              image: 'https://picsum.photos/1080/1920',
+              image: 'https://images.unsplash.com/photo-1524821261922-e353d72c20e5?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8MTA4MHgxOTIwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200',
               swipeText: 'Custom swipe text for this story',
               onPress: () => console.log('story 1 swiped'),
             },
             {
               id: 2,
-              image: 'https://picsum.photos/1080/1920',
+              image: 'https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8MTA4MHgxOTIwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200',
               swipeText: 'Custom swipe text for this story',
               onPress: () => console.log('story 2 swiped'),
             },
