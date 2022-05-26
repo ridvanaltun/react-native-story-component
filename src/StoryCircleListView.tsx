@@ -29,7 +29,7 @@ const StoryCircleListView = (props: Props) => {
   return (
     <View>
       <FlatList
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(_, index) => `story-item-${index}`}
         data={data}
         horizontal
         style={styles.container}

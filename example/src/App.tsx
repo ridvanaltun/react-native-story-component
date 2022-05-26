@@ -1,31 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { faker } from '@faker-js/faker';
 
-import InstaStory from 'react-native-story-component';
+import Story from 'react-native-story-component';
 
 const createData = () => {
   const array = [];
 
-  const userCount = 10;
-  const userStoryCount = 15;
+  const USER_COUNT = 10;
+  const USER_STORY_COUNT = 15;
 
-  for (let i = 1; i <= userCount; i++) {
+  for (let i = 1; i <= USER_COUNT; i++) {
     const storyArray = [];
-    for (let k = 1; k <= userStoryCount; k++) {
+    for (let k = 1; k <= USER_STORY_COUNT; k++) {
       storyArray.push({
         id: i,
-        image: 'https://picsum.photos/500/800?random=' + Math.random(),
-        swipeText: 'Custom swipe text for this story',
-        onPress: () => console.log(`story ${i} swiped`),
+        image: faker.image.imageUrl(1080, 1920, undefined, true),
+        swipeText: faker.lorem.text(),
+        onPress: () => console.log(`Story ${i} swiped!`),
       });
     }
 
     array.push({
       // seen: Math.random() < 0.5,
       id: i,
-      avatar: 'https://picsum.photos/200/300?random=' + Math.random(),
-      name: 'Test User ' + i,
+      avatar: faker.image.avatar(),
+      name: faker.name.findName(),
       stories: storyArray,
     });
   }
@@ -38,14 +39,14 @@ const App = () => {
     <>
       <StatusBar backgroundColor="#000" style="light" />
       <View style={styles.container}>
-        <InstaStory
+        <Story
           data={createData()}
           duration={10}
-          customSwipeUpComponent={
+          customSwipeUpComponent={() => (
             <View>
               <Text>Swipe</Text>
             </View>
-          }
+          )}
           style={styles.story}
         />
       </View>

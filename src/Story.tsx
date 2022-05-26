@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Dimensions, View, Platform, StyleSheet } from 'react-native';
 import Modal from 'react-native-modalbox';
 
@@ -32,8 +26,12 @@ type Props = {
   onStart?: (item: IUserStory) => void;
   duration?: number;
   swipeText?: string;
-  customSwipeUpComponent?: any;
-  customCloseComponent?: any;
+  customSwipeUpComponent?: () => React.ReactNode;
+  customCloseComponent?: () => React.ReactNode;
+  customStoryList?: (props: {
+    data: IUserStory[];
+    onStoryPress: (item: IUserStory, index: number) => void;
+  }) => React.ReactNode;
   avatarSize?: number;
   showAvatarText?: boolean;
   avatarTextStyle?: TextStyle;
@@ -51,6 +49,7 @@ const Story = (props: Props) => {
     swipeText,
     customSwipeUpComponent,
     customCloseComponent,
+    customStoryList,
     avatarSize,
     showAvatarText,
     avatarTextStyle,
@@ -62,12 +61,10 @@ const Story = (props: Props) => {
   const [selectedData, setSelectedData] = useState<IUserStory[]>([]);
   const cube = useRef();
 
-  // Component Functions
   const _handleStoryItemPress = (item: IUserStory, index: number) => {
     const newData = dataState.slice(index);
-    if (onStart) {
-      onStart(item);
-    }
+
+    if (onStart) onStart(item);
 
     setCurrentPage(0);
     setSelectedData(newData);
@@ -179,19 +176,30 @@ const Story = (props: Props) => {
     }
   };
 
+  const renderStoryCircleList = () => {
+    if (customStoryList) {
+      return customStoryList({
+        data: dataState,
+        onStoryPress: _handleStoryItemPress,
+      });
+    }
+
+    return (
+      <StoryCircleListView
+        handleStoryItemPress={_handleStoryItemPress}
+        data={dataState}
+        avatarSize={avatarSize}
+        unPressedBorderColor={unPressedBorderColor}
+        pressedBorderColor={pressedBorderColor}
+        showText={showAvatarText}
+        textStyle={avatarTextStyle}
+      />
+    );
+  };
+
   return (
-    <Fragment>
-      <View style={style}>
-        <StoryCircleListView
-          handleStoryItemPress={_handleStoryItemPress}
-          data={dataState}
-          avatarSize={avatarSize}
-          unPressedBorderColor={unPressedBorderColor}
-          pressedBorderColor={pressedBorderColor}
-          showText={showAvatarText}
-          textStyle={avatarTextStyle}
-        />
-      </View>
+    <>
+      <View style={style}>{renderStoryCircleList()}</View>
       <Modal
         style={styles.modal}
         isOpen={isModalOpen}
@@ -204,7 +212,7 @@ const Story = (props: Props) => {
       >
         {renderCube()}
       </Modal>
-    </Fragment>
+    </>
   );
 };
 

@@ -25,20 +25,21 @@ npm i react-native-story-component
 
 ## Props
 
-| Name                   | Description                                         | Type      | Default Value |
-| :--------------------- | :-------------------------------------------------- | :-------- | :-----------: |
-| data                   | Array of IUserStory. You can check from interfaces. | object    |               |
-| unPressedBorderColor   | Unpressed border color of profile circle            | color     |      red      |
-| pressedBorderColor     | Pressed border color of profile circle              | color     |     grey      |
-| onClose                | Todo when close                                     | function  |     null      |
-| onStart                | Todo when start                                     | function  |     null      |
-| duration               | Per story duration seconds                          | number    |      10       |
-| swipeText              | Text of swipe component                             | string    |   Swipe Up    |
-| customSwipeUpComponent | For use custom component for swipe area             | component |               |
-| customCloseComponent   | For use custom component for close button           | component |               |
-| avatarSize             | Size of avatar circle                               | number    |      60       |
-| showAvatarText         | For show or hide avatar text.                       | bool      |     true      |
-| textStyle              | For avatar text style                               | TextStyle |               |
+| Name                   | Description                                         | Type                                                                                         | Default Value |
+| :--------------------- | :-------------------------------------------------- | :------------------------------------------------------------------------------------------- | :-----------: |
+| data                   | Array of IUserStory. You can check from interfaces. | object                                                                                       |               |
+| unPressedBorderColor   | Unpressed border color of profile circle            | color                                                                                        |      red      |
+| pressedBorderColor     | Pressed border color of profile circle              | color                                                                                        |     grey      |
+| onClose                | Todo when close                                     | function                                                                                     |     null      |
+| onStart                | Todo when start                                     | function                                                                                     |     null      |
+| duration               | Per story duration seconds                          | number                                                                                       |      10       |
+| swipeText              | Text of swipe component                             | string                                                                                       |   Swipe Up    |
+| customSwipeUpComponent | For use custom component for swipe area             | () => component                                                                              |               |
+| customCloseComponent   | For use custom component for close button           | () => component                                                                              |               |
+| customStoryList        | For use custom component for story list             | ({data: IUserStory[], onStoryPress: (item: IUserStory, index: number) => void}) => component |               |
+| avatarSize             | Size of avatar circle                               | number                                                                                       |      60       |
+| showAvatarText         | For show or hide avatar text.                       | bool                                                                                         |     true      |
+| textStyle              | For avatar text style                               | TextStyle                                                                                    |               |
 
 ## Usage
 
@@ -93,11 +94,11 @@ const App = () => {
       onClose={(item) => {
         console.log('close: ', item);
       }}
-      customSwipeUpComponent={
+      customSwipeUpComponent={() => (
         <View>
           <Text>Swipe</Text>
         </View>
-      }
+      )}
     />
   );
 };

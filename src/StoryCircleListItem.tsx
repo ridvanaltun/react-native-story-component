@@ -66,10 +66,12 @@ const StoryCircleListItem = (props: Props) => {
             ? {
                 borderColor: unPressedBorderColor
                   ? unPressedBorderColor
-                  : 'red',
+                  : '#FF0000',
               }
             : {
-                borderColor: pressedBorderColor ? pressedBorderColor : 'grey',
+                borderColor: pressedBorderColor
+                  ? pressedBorderColor
+                  : '#808080',
               },
         ]}
       >
@@ -77,7 +79,7 @@ const StoryCircleListItem = (props: Props) => {
           style={{
             height: size,
             width: size,
-            borderRadius: 100,
+            borderRadius: size / 2,
           }}
           source={{ uri: item.avatar }}
           defaultSource={
@@ -90,7 +92,7 @@ const StoryCircleListItem = (props: Props) => {
       {showText && (
         <Text
           numberOfLines={1}
-          ellipsizeMode={'tail'}
+          ellipsizeMode="tail"
           style={{
             width: size + 4,
             ...styles.text,
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    borderColor: 'red',
+    borderColor: '#FF0000',
     borderRadius: 100,
     height: 64,
     width: 64,

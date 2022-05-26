@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Animated,
   Image,
@@ -36,8 +36,8 @@ type Props = {
   onClosePress: () => void;
   key: number;
   swipeText?: string;
-  customSwipeUpComponent?: any;
-  customCloseComponent?: any;
+  customSwipeUpComponent?: () => React.ReactNode;
+  customCloseComponent?: () => React.ReactNode;
   stories: IUserStoryItem[];
   currentPage: number;
 };
@@ -178,8 +178,31 @@ const StoryListItem = (props: Props) => {
     }
   };
 
-  const swipeText =
-    content?.[current]?.swipeText || props.swipeText || 'Swipe Up';
+  const swipeText = useMemo(
+    () => content?.[current]?.swipeText || props.swipeText || 'Swipe Up',
+    [content, current, props.swipeText]
+  );
+
+  const renderSwipeButton = () => {
+    if (props.customSwipeUpComponent) {
+      return props.customSwipeUpComponent();
+    }
+
+    return (
+      <>
+        <Text style={styles.swipeText} />
+        <Text style={styles.swipeText}>{swipeText}</Text>
+      </>
+    );
+  };
+
+  const renderCloseButton = () => {
+    if (props.customCloseComponent) {
+      return props.customCloseComponent();
+    }
+
+    return <Text style={styles.closeText}>X</Text>;
+  };
 
   return (
     <GestureRecognizer
@@ -199,7 +222,7 @@ const StoryListItem = (props: Props) => {
         />
         {load && (
           <View style={styles.spinnerContainer}>
-            <ActivityIndicator size="large" color="white" />
+            <ActivityIndicator size="large" color="#FFF" />
           </View>
         )}
       </SafeAreaView>
@@ -212,7 +235,7 @@ const StoryListItem = (props: Props) => {
                   style={{
                     flex: current === index ? progress : content[index].finish,
                     height: 2,
-                    backgroundColor: 'white',
+                    backgroundColor: '#FFF',
                   }}
                 />
               </View>
@@ -234,13 +257,7 @@ const StoryListItem = (props: Props) => {
               }
             }}
           >
-            <View style={styles.closeIconContainer}>
-              {props.customCloseComponent ? (
-                props.customCloseComponent
-              ) : (
-                <Text style={styles.closeText}>X</Text>
-              )}
-            </View>
+            <View style={styles.closeIconContainer}>{renderCloseButton()}</View>
           </TouchableOpacity>
         </View>
         <View style={styles.pressContainer}>
@@ -282,14 +299,7 @@ const StoryListItem = (props: Props) => {
           onPress={onSwipeUp}
           style={styles.swipeUpBtn}
         >
-          {props.customSwipeUpComponent ? (
-            props.customSwipeUpComponent
-          ) : (
-            <>
-              <Text style={styles.swipeText} />
-              <Text style={styles.swipeText}>{swipeText}</Text>
-            </>
-          )}
+          {renderSwipeButton()}
         </TouchableOpacity>
       )}
     </GestureRecognizer>
@@ -321,7 +331,7 @@ const styles = StyleSheet.create({
     zIndex: -100,
     position: 'absolute',
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#000',
     alignSelf: 'center',
     width: width,
     height: height,
@@ -355,7 +365,7 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: '#FFF',
     paddingLeft: 10,
   },
   closeIconContainer: {
@@ -376,11 +386,11 @@ const styles = StyleSheet.create({
     bottom: Platform.OS === 'ios' ? 20 : 50,
   },
   swipeText: {
-    color: 'white',
+    color: '#FFF',
     marginTop: 5,
   },
   closeText: {
-    color: 'white',
+    color: '#FFF',
   },
   profileContainer: {
     flexDirection: 'row',
