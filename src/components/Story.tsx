@@ -4,36 +4,42 @@ import Modal from 'react-native-modalbox';
 
 import StoryListItem from './StoryListItem';
 import StoryCircleListView from './StoryCircleListView';
-import AndroidCubeEffect from './components/AndroidCubeEffect';
-import CubeNavigationHorizontal from './components/CubeNavigationHorizontal';
 
-import { isNullOrWhitespace } from './helpers/ValidationHelpers';
+import AndroidCubeEffect from '../animations/AndroidCubeEffect';
+import CubeNavigationHorizontal from '../animations/CubeNavigationHorizontal';
 
-import { CloseStates } from './StoryListItem';
+import { isNullOrWhitespace, isUrl } from '../helpers/ValidationHelpers';
+
+import { ActionStates } from '../index';
+import type {
+  IUserStory,
+  ICustomStoryView,
+  ICustomStoryList,
+  ICustomProfileBanner,
+} from '../index';
 import type { TextStyle, ViewStyle } from 'react-native';
-import type { IUserStory } from './interfaces/IUserStory';
 
-declare module './components/CubeNavigationHorizontal' {}
+declare module '../animations/CubeNavigationHorizontal' {}
 
-declare module './components/AndroidCubeEffect' {}
+declare module '../animations/AndroidCubeEffect' {}
 
 type Props = {
   data: IUserStory[];
-  style?: ViewStyle;
+  storyListStyle?: ViewStyle;
   unPressedBorderColor?: string;
   pressedBorderColor?: string;
   onClose?: (item: IUserStory) => void;
   onStart?: (item: IUserStory) => void;
   duration?: number;
   swipeText?: string;
-  customSwipeUpComponent?: () => React.ReactNode;
-  customCloseComponent?: () => React.ReactNode;
-  customStoryList?: (props: {
-    data: IUserStory[];
-    onStoryPress: (item: IUserStory, index: number) => void;
-  }) => React.ReactNode;
+  customSwipeUpButton?: () => React.ReactNode;
+  customCloseButton?: () => React.ReactNode;
+  customStoryList?: (props: ICustomStoryList) => React.ReactNode;
+  customStoryView?: (props: ICustomStoryView) => React.ReactNode;
+  customProfileBanner?: (props: ICustomProfileBanner) => React.ReactNode;
   avatarSize?: number;
   showAvatarText?: boolean;
+  showProfileBanner?: boolean;
   avatarTextStyle?: TextStyle;
 };
 
@@ -42,16 +48,18 @@ const Story = (props: Props) => {
     data,
     unPressedBorderColor,
     pressedBorderColor,
-    style,
+    storyListStyle,
     onStart,
     onClose,
     duration,
     swipeText,
-    customSwipeUpComponent,
-    customCloseComponent,
+    customSwipeUpButton,
+    customCloseButton,
     customStoryList,
+    customProfileBanner,
     avatarSize,
     showAvatarText,
+    showProfileBanner,
     avatarTextStyle,
   } = props;
 
@@ -59,7 +67,7 @@ const Story = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedData, setSelectedData] = useState<IUserStory[]>([]);
-  const cube = useRef();
+  const cubeRef = useRef();
 
   const _handleStoryItemPress = (item: IUserStory, index: number) => {
     const newData = dataState.slice(index);
@@ -90,14 +98,14 @@ const Story = (props: Props) => {
     handleSeen();
   }, [currentPage, handleSeen]);
 
-  const onStoryFinish = (state: CloseStates) => {
+  const onStoryFinish = (state: ActionStates) => {
     if (!isNullOrWhitespace(state)) {
-      if (state === CloseStates.NEXT) {
+      if (state === ActionStates.NEXT) {
         const newPage = currentPage + 1;
         if (newPage < selectedData.length) {
           setCurrentPage(newPage);
           //@ts-ignore
-          cube?.current?.scrollTo(newPage);
+          cubeRef?.current?.scrollTo(newPage);
         } else {
           setIsModalOpen(false);
           setCurrentPage(0);
@@ -105,7 +113,7 @@ const Story = (props: Props) => {
             onClose(selectedData[selectedData.length - 1]);
           }
         }
-      } else if (state === CloseStates.PREVIOUS) {
+      } else if (state === ActionStates.PREVIOUS) {
         const newPage = currentPage - 1;
         if (newPage < 0) {
           setIsModalOpen(false);
@@ -113,67 +121,49 @@ const Story = (props: Props) => {
         } else {
           setCurrentPage(newPage);
           //@ts-ignore
-          cube?.current?.scrollTo(newPage);
+          cubeRef?.current?.scrollTo(newPage);
         }
       }
     }
   };
 
-  const renderStoryList = () =>
-    selectedData.map((story, i) => {
+  const onClosePress = (story: IUserStory) => {
+    setIsModalOpen(false);
+    if (onClose) onClose(story);
+  };
+
+  const renderStoryList = () => {
+    return selectedData.map((story, i) => {
+      if (props.customStoryView)
+        return props.customStoryView({
+          index: i,
+          data: story,
+          currentPage,
+          changeStory: onStoryFinish,
+          close: () => onClosePress(story),
+        });
+
       return (
         <StoryListItem
+          key={`story-${story.id}`}
+          index={i}
           duration={duration ? duration * 1000 : undefined}
-          key={i}
           profileName={story.name}
-          profileImage={story.avatar}
+          profileImage={
+            isUrl(story.avatar) ? { uri: story.avatar } : story.avatar
+          }
           stories={story.stories}
           currentPage={currentPage}
           onFinish={onStoryFinish}
           swipeText={swipeText}
-          customSwipeUpComponent={customSwipeUpComponent}
-          customCloseComponent={customCloseComponent}
-          onClosePress={() => {
-            setIsModalOpen(false);
-            if (onClose) {
-              onClose(story);
-            }
-          }}
-          index={i}
+          customSwipeUpButton={customSwipeUpButton}
+          customCloseButton={customCloseButton}
+          customProfileBanner={customProfileBanner}
+          showProfileBanner={showProfileBanner}
+          onClosePress={() => onClosePress(story)}
         />
       );
     });
-
-  const renderCube = () => {
-    if (Platform.OS === 'ios') {
-      return (
-        <CubeNavigationHorizontal
-          //@ts-ignore
-          ref={cube}
-          callBackAfterSwipe={(x: string | number) => {
-            if (parseInt(`${x}`, 10) !== currentPage) {
-              setCurrentPage(parseInt(`${x}`, 10));
-            }
-          }}
-        >
-          {renderStoryList()}
-        </CubeNavigationHorizontal>
-      );
-    } else {
-      return (
-        <AndroidCubeEffect
-          //@ts-ignore
-          ref={cube}
-          callBackAfterSwipe={(x: string | number) => {
-            if (parseInt(`${x}`, 10) !== currentPage) {
-              setCurrentPage(parseInt(`${x}`, 10));
-            }
-          }}
-        >
-          {renderStoryList()}
-        </AndroidCubeEffect>
-      );
-    }
   };
 
   const renderStoryCircleList = () => {
@@ -197,9 +187,41 @@ const Story = (props: Props) => {
     );
   };
 
+  const renderCube = () => {
+    if (Platform.OS === 'ios') {
+      return (
+        <CubeNavigationHorizontal
+          //@ts-ignore
+          ref={cubeRef}
+          callBackAfterSwipe={(x: string | number) => {
+            if (parseInt(`${x}`, 10) !== currentPage) {
+              setCurrentPage(parseInt(`${x}`, 10));
+            }
+          }}
+        >
+          {renderStoryList()}
+        </CubeNavigationHorizontal>
+      );
+    }
+
+    return (
+      <AndroidCubeEffect
+        //@ts-ignore
+        ref={cubeRef}
+        callBackAfterSwipe={(x: string | number) => {
+          if (parseInt(`${x}`, 10) !== currentPage) {
+            setCurrentPage(parseInt(`${x}`, 10));
+          }
+        }}
+      >
+        {renderStoryList()}
+      </AndroidCubeEffect>
+    );
+  };
+
   return (
     <>
-      <View style={style}>{renderStoryCircleList()}</View>
+      <View style={storyListStyle}>{renderStoryCircleList()}</View>
       <Modal
         style={styles.modal}
         isOpen={isModalOpen}
@@ -218,6 +240,7 @@ const Story = (props: Props) => {
 
 Story.defaultProps = {
   showAvatarText: true,
+  showProfileBanner: true,
 };
 
 const styles = StyleSheet.create({

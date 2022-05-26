@@ -8,10 +8,12 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import { usePrevious } from './helpers/StateHelpers';
+
+import { isUrl } from '../helpers/ValidationHelpers';
+import { usePrevious } from '../helpers/StateHelpers';
 
 import type { TextStyle } from 'react-native';
-import type { IUserStory } from './interfaces/IUserStory';
+import type { IUserStory } from '../index';
 
 interface Props {
   item: IUserStory;
@@ -81,10 +83,10 @@ const StoryCircleListItem = (props: Props) => {
             width: size,
             borderRadius: size / 2,
           }}
-          source={{ uri: item.avatar }}
+          source={isUrl(item.avatar) ? { uri: item.avatar } : item.avatar}
           defaultSource={
             Platform.OS === 'ios'
-              ? require('./assets/images/no_avatar.png')
+              ? require('../assets/images/no_avatar.png')
               : null
           }
         />

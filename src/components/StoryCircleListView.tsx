@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import StoryCircleListItem from './StoryCircleListItem';
 
 import type { TextStyle } from 'react-native';
-import type { IUserStory } from './interfaces/IUserStory';
+import type { IUserStory } from '../index';
 
 interface Props {
   data: IUserStory[];
@@ -29,7 +29,7 @@ const StoryCircleListView = (props: Props) => {
   return (
     <View>
       <FlatList
-        keyExtractor={(_, index) => `story-item-${index}`}
+        keyExtractor={(item) => `story-item-${item.id}`}
         data={data}
         horizontal
         style={styles.container}

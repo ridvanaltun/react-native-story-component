@@ -7,6 +7,10 @@
 
 > A decent story component for React-Native
 
+| Preview                                                           |
+| ----------------------------------------------------------------- |
+| <img src="docs/preview.gif" alt="Preview Image" width="300px"  /> |
+
 # Table of Contents <!-- omit in toc -->
 
 - [Getting started](#getting-started)
@@ -25,21 +29,25 @@ npm i react-native-story-component
 
 ## Props
 
-| Name                   | Description                                         | Type                                                                                         | Default Value |
-| :--------------------- | :-------------------------------------------------- | :------------------------------------------------------------------------------------------- | :-----------: |
-| data                   | Array of IUserStory. You can check from interfaces. | object                                                                                       |               |
-| unPressedBorderColor   | Unpressed border color of profile circle            | color                                                                                        |      red      |
-| pressedBorderColor     | Pressed border color of profile circle              | color                                                                                        |     grey      |
-| onClose                | Todo when close                                     | function                                                                                     |     null      |
-| onStart                | Todo when start                                     | function                                                                                     |     null      |
-| duration               | Per story duration seconds                          | number                                                                                       |      10       |
-| swipeText              | Text of swipe component                             | string                                                                                       |   Swipe Up    |
-| customSwipeUpComponent | For use custom component for swipe area             | () => component                                                                              |               |
-| customCloseComponent   | For use custom component for close button           | () => component                                                                              |               |
-| customStoryList        | For use custom component for story list             | ({data: IUserStory[], onStoryPress: (item: IUserStory, index: number) => void}) => component |               |
-| avatarSize             | Size of avatar circle                               | number                                                                                       |      60       |
-| showAvatarText         | For show or hide avatar text.                       | bool                                                                                         |     true      |
-| textStyle              | For avatar text style                               | TextStyle                                                                                    |               |
+| Name                 | Description                              | Type                                             | Default Value |
+| :------------------- | :--------------------------------------- | :----------------------------------------------- | :-----------: |
+| data                 | Array of stories.                        | IUserStory[]                                     |               |
+| unPressedBorderColor | Unpressed border color of profile circle | color                                            |      red      |
+| pressedBorderColor   | Pressed border color of profile circle   | color                                            |     grey      |
+| onClose              | Todo when close                          | (item: IUserStory) => void                       |     null      |
+| onStart              | Todo when start                          | (item: IUserStory) => void                       |     null      |
+| duration             | Per story duration in seconds            | number                                           |      10       |
+| swipeText            | Text of swipe component                  | string                                           |   Swipe Up    |
+| customSwipeUpButton  | Custom component for swipe area          | () => ReactNode                                  |               |
+| customCloseButton    | Custom component for close button        | () => ReactNode                                  |               |
+| customStoryList      | Custom component for story list          | (props: ICustomStoryList) => React.ReactNode     |               |
+| customStoryView      | Custom component for story view          | (props: ICustomStoryView) => React.ReactNode     |               |
+| customProfileBanner  | Custom component for profile banner      | (props: ICustomProfileBanner) => React.ReactNode |               |
+| avatarSize           | Size of avatar circle                    | number                                           |      60       |
+| showAvatarText       | Show or hide avatar text                 | bool                                             |     true      |
+| showProfileBanner    | Show or hide profile banner              | bool                                             |     true      |
+| textStyle            | Avatar text style                        | TextStyle                                        |               |
+| storyListStyle       | Story list view style                    | ViewStyle                                        |               |
 
 ## Usage
 
@@ -88,13 +96,13 @@ const App = () => {
         },
       ]}
       duration={10}
-      onStart={(item) => {
-        console.log(item);
+      onStart={(openedStory) => {
+        console.log(openedStory);
       }}
-      onClose={(item) => {
-        console.log('close: ', item);
+      onClose={(closedStory) => {
+        console.log(closedStory);
       }}
-      customSwipeUpComponent={() => (
+      customSwipeUpButton={() => (
         <View>
           <Text>Swipe</Text>
         </View>
