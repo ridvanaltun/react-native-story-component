@@ -3,7 +3,7 @@
     "allowJs": true,
     "baseUrl": "./",
     "paths": {
-      "react-native-story-component": ["./index"]
+      "react-native-story-component": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

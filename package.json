@@ -6,11 +6,10 @@
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
-  "react-native": "index",
-  "source": "index",
+  "react-native": "src/index",
+  "source": "src/index",
   "files": [
     "README.md",
-    "index.js",
     "src",
     "lib",
     "!example",
