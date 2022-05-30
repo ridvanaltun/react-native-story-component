@@ -20,6 +20,7 @@ import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
 
 import { ActionStates } from '../index';
 import type { IUserStoryItem, ICustomProfileBanner } from '../index';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const { width, height } = Dimensions.get('window');
 
@@ -351,6 +352,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'rgba(117, 117, 117, 0.5)',
     marginHorizontal: 2,
+    marginTop: getStatusBarHeight(true),
   },
   userContainer: {
     height: 50,

@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { Text, View, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { faker } from '@faker-js/faker';
 
 import Story from 'react-native-story-component';
@@ -25,33 +24,30 @@ const createStories = () => {
 
 const App = () => {
   return (
-    <>
-      <StatusBar backgroundColor="#000" style="light" />
-      <View style={styles.container}>
-        <Story
-          data={createStories()}
-          duration={10}
-          // customStoryView={({ index }) => {
-          //   return (
-          //     <View
-          //       key={index}
-          //       style={{
-          //         backgroundColor: '#fff',
-          //       }}
-          //     >
-          //       <Text>Custom View</Text>
-          //     </View>
-          //   );
-          // }}
-          customSwipeUpButton={() => (
-            <View>
-              <Text>Swipe</Text>
-            </View>
-          )}
-          storyListStyle={styles.story}
-        />
-      </View>
-    </>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <Story
+        data={createStories()}
+        duration={10}
+        // customStoryView={({ index }) => {
+        //   return (
+        //     <View
+        //       key={index}
+        //       style={{
+        //         backgroundColor: '#fff',
+        //       }}
+        //     >
+        //       <Text>Custom View</Text>
+        //     </View>
+        //   );
+        // }}
+        customSwipeUpButton={() => (
+          <View>
+            <Text>Swipe</Text>
+          </View>
+        )}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -59,9 +55,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  story: {
-    marginTop: 70,
   },
 });
 
