@@ -318,8 +318,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width,
-    height: height,
-    resizeMode: 'cover',
+    height: height - getStatusBarHeight(true),
+    resizeMode: 'stretch',
   },
   backgroundContainer: {
     position: 'absolute',
