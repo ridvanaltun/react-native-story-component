@@ -16,6 +16,7 @@ import type {
   ICustomStoryView,
   ICustomStoryList,
   ICustomProfileBanner,
+  ICustomStoryImage,
 } from '../index';
 import type { TextStyle, ViewStyle } from 'react-native';
 
@@ -37,6 +38,7 @@ type Props = {
   customStoryList?: (props: ICustomStoryList) => React.ReactNode;
   customStoryView?: (props: ICustomStoryView) => React.ReactNode;
   customProfileBanner?: (props: ICustomProfileBanner) => React.ReactNode;
+  customStoryImage?: (props: ICustomStoryImage) => React.ReactNode;
   avatarSize?: number;
   showAvatarText?: boolean;
   showProfileBanner?: boolean;
@@ -57,6 +59,7 @@ const Story = (props: Props) => {
     customCloseButton,
     customStoryList,
     customProfileBanner,
+    customStoryImage,
     avatarSize,
     showAvatarText,
     showProfileBanner,
@@ -159,6 +162,7 @@ const Story = (props: Props) => {
           customSwipeUpButton={customSwipeUpButton}
           customCloseButton={customCloseButton}
           customProfileBanner={customProfileBanner}
+          customStoryImage={customStoryImage}
           showProfileBanner={showProfileBanner}
           onClosePress={() => onClosePress(story)}
         />

@@ -43,6 +43,7 @@ npm i react-native-story-component
 | customStoryList      | Custom component for story list          | (props: ICustomStoryList) => React.ReactNode     |               |
 | customStoryView      | Custom component for story view          | (props: ICustomStoryView) => React.ReactNode     |               |
 | customProfileBanner  | Custom component for profile banner      | (props: ICustomProfileBanner) => React.ReactNode |               |
+| customStoryImage     | Custom component for story image         | (props: ICustomStoryImage) => React.ReactNode    |               |
 | avatarSize           | Size of avatar circle                    | number                                           |      60       |
 | showAvatarText       | Show or hide avatar text                 | bool                                             |     true      |
 | showProfileBanner    | Show or hide profile banner              | bool                                             |     true      |

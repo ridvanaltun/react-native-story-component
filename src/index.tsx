@@ -42,4 +42,9 @@ export interface ICustomProfileBanner {
   name: string;
 }
 
+export interface ICustomStoryImage {
+  image: String;
+  onLoadEnd: () => void;
+}
+
 export default Story;

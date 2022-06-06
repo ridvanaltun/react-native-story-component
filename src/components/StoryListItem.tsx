@@ -20,7 +20,11 @@ import { usePrevious } from '../helpers/StateHelpers';
 import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
 
 import { ActionStates } from '../index';
-import type { IUserStoryItem, ICustomProfileBanner } from '../index';
+import type {
+  IUserStoryItem,
+  ICustomProfileBanner,
+  ICustomStoryImage,
+} from '../index';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const { width, height } = Dimensions.get('window');
@@ -36,6 +40,7 @@ type Props = {
   customSwipeUpButton?: () => React.ReactNode;
   customCloseButton?: () => React.ReactNode;
   customProfileBanner?: (props: ICustomProfileBanner) => React.ReactNode;
+  customStoryImage?: (props: ICustomStoryImage) => React.ReactNode;
   stories: IUserStoryItem[];
   showProfileBanner?: boolean;
   currentPage: number;
@@ -211,6 +216,23 @@ const StoryListItem = (props: Props) => {
     );
   };
 
+  const renderStoryImage = () => {
+    if (props.customStoryImage)
+      return props.customStoryImage({
+        image: currStory.image,
+        onLoadEnd: startStory,
+      });
+
+    return (
+      <AutoHeightImage
+        source={{ uri: currStory.image }}
+        width={width}
+        style={styles.image}
+        onLoadEnd={startStory}
+      />
+    );
+  };
+
   return (
     <GestureRecognizer
       onSwipeUp={onSwipeUp}
@@ -222,12 +244,7 @@ const StoryListItem = (props: Props) => {
       style={styles.container}
     >
       <SafeAreaView style={styles.backgroundContainer}>
-        <AutoHeightImage
-          source={{ uri: currStory.image }}
-          width={width}
-          style={styles.image}
-          onLoadEnd={startStory}
-        />
+        {renderStoryImage()}
         {loading && (
           <View style={styles.spinnerContainer}>
             <ActivityIndicator size="large" color="#FFF" />
