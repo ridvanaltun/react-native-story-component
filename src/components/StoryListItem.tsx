@@ -14,7 +14,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import AutoHeightImage from 'react-native-auto-height-image';
+import AutoHeightImage from './AutoHeightImage';
 
 import { usePrevious } from '../helpers/StateHelpers';
 import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
