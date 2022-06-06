@@ -14,6 +14,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import AutoHeightImage from 'react-native-auto-height-image';
 
 import { usePrevious } from '../helpers/StateHelpers';
 import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
@@ -221,10 +222,11 @@ const StoryListItem = (props: Props) => {
       style={styles.container}
     >
       <SafeAreaView style={styles.backgroundContainer}>
-        <Image
-          onLoadEnd={() => startStory()}
+        <AutoHeightImage
           source={{ uri: currStory.image }}
+          width={width}
           style={styles.image}
+          onLoadEnd={startStory}
         />
         {loading && (
           <View style={styles.spinnerContainer}>
@@ -317,9 +319,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   image: {
-    width: width,
-    height: height - getStatusBarHeight(true),
-    resizeMode: 'stretch',
+    maxHeight: height - getStatusBarHeight(true),
   },
   backgroundContainer: {
     position: 'absolute',
@@ -327,6 +327,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    justifyContent: 'center',
   },
   spinnerContainer: {
     zIndex: -100,

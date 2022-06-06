@@ -118,11 +118,14 @@ const App = () => {
 # clone the project
 git clone https://github.com/ridvanaltun/react-native-story-component.git
 
-# go into the example folder
-cd react-native-story-component/example
+# go into the project
+cd react-native-story-component
 
-# install dependencies
-npm i
+# make project ready
+npm run bootstrap
+
+# go into the example
+cd example
 
 # run for android
 npm run android
@@ -143,4 +146,4 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 
 ## License
 
-MIT
+[MIT](LICENSE)
