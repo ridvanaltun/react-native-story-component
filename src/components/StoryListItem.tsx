@@ -1,5 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 import {
   Animated,
   Image,
@@ -14,7 +20,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import AutoHeightImage from './AutoHeightImage';
 
 import { usePrevious } from '../helpers/StateHelpers';
 import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
@@ -49,8 +54,10 @@ type Props = {
 const StoryListItem = (props: Props) => {
   const [loading, setLoading] = useState(true);
   const [pressed, setPressed] = useState(false);
-  const [currStoryIndex, setCurrentStoryIndex] = useState(0);
+  const [currStoryIndex, setCurrStoryIndex] = useState(0);
   const [content, setContent] = useState(props.stories);
+  const [currImageWidth, setCurrImageWidth] = useState(0);
+  const [currImageHeight, setCurrImageHeight] = useState(0);
 
   const currStory = useMemo(
     () => content[currStoryIndex],
@@ -69,14 +76,97 @@ const StoryListItem = (props: Props) => {
   const prevPageIndex = usePrevious(currPageIndex);
   const prevStoryIndex = usePrevious(currStoryIndex);
 
+  const close = useCallback(
+    (state: ActionStates) => {
+      let data = [...content];
+      data.map((x) => (x.finished = false));
+      setContent(data);
+      progress.setValue(0);
+      if (currPageIndex === props.index) {
+        if (props.onFinish) {
+          props.onFinish(state);
+        }
+      }
+    },
+    [content, currPageIndex, progress, props]
+  );
+
+  const next = useCallback(() => {
+    // check if the next content is not empty
+    setLoading(true);
+    if (currStoryIndex !== content.length - 1) {
+      let data = [...content];
+      data[currStoryIndex].finished = true;
+      setContent(data);
+      setCurrStoryIndex(currStoryIndex + 1);
+      progress.setValue(0);
+    } else {
+      // the next content is empty
+      close(ActionStates.NEXT);
+    }
+  }, [close, content, currStoryIndex, progress]);
+
+  const previous = () => {
+    // checking if the previous content is not empty
+    setLoading(true);
+    if (currStoryIndex - 1 >= 0) {
+      let data = [...content];
+      data[currStoryIndex].finished = false;
+      setContent(data);
+      setCurrStoryIndex(currStoryIndex - 1);
+      progress.setValue(0);
+    } else {
+      // the previous content is empty
+      close(ActionStates.PREVIOUS);
+    }
+  };
+
+  const startProgressAnimation = useCallback(() => {
+    Animated.timing(progress, {
+      toValue: 1,
+      duration: props.duration,
+      useNativeDriver: false,
+    }).start(({ finished }) => {
+      if (finished) next();
+    });
+  }, [next, progress, props.duration]);
+
+  const startStory = useCallback(() => {
+    Image.getSize(
+      content[currStoryIndex].image,
+      (imageWidth, imageHeight) => {
+        let newHeight = imageHeight;
+        let newWidth = imageWidth;
+
+        const isImageWidthBiggerThenPhone = imageWidth > width;
+
+        if (isImageWidthBiggerThenPhone) {
+          newHeight = Number(imageHeight)
+            ? Math.floor(width * (imageHeight / imageWidth))
+            : width;
+          newWidth = width;
+        }
+
+        setCurrImageWidth(newWidth);
+        setCurrImageHeight(newHeight);
+        setLoading(false);
+        progress.setValue(0);
+        startProgressAnimation();
+      },
+      (errorMsg) => {
+        console.log(errorMsg);
+      }
+    );
+  }, [content, currStoryIndex, progress, startProgressAnimation]);
+
   // call every page changes
   useEffect(() => {
     const isPrevious = !!prevPageIndex && prevPageIndex > currPageIndex;
 
     if (isPrevious) {
-      setCurrentStoryIndex(content.length - 1);
+      setCurrStoryIndex(content.length - 1);
     } else {
-      setCurrentStoryIndex(0);
+      setCurrStoryIndex(0);
     }
 
     let data = [...content];
@@ -115,22 +205,6 @@ const StoryListItem = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currStoryIndex]);
 
-  const startProgressAnimation = () => {
-    Animated.timing(progress, {
-      toValue: 1,
-      duration: props.duration,
-      useNativeDriver: false,
-    }).start(({ finished }) => {
-      if (finished) next();
-    });
-  };
-
-  const startStory = () => {
-    setLoading(false);
-    progress.setValue(0);
-    startProgressAnimation();
-  };
-
   const onSwipeUp = () => {
     if (props.onClosePress) props.onClosePress();
 
@@ -139,48 +213,6 @@ const StoryListItem = (props: Props) => {
 
   const onSwipeDown = () => {
     props?.onClosePress();
-  };
-
-  const next = () => {
-    // check if the next content is not empty
-    setLoading(true);
-    if (currStoryIndex !== content.length - 1) {
-      let data = [...content];
-      data[currStoryIndex].finished = true;
-      setContent(data);
-      setCurrentStoryIndex(currStoryIndex + 1);
-      progress.setValue(0);
-    } else {
-      // the next content is empty
-      close(ActionStates.NEXT);
-    }
-  };
-
-  const previous = () => {
-    // checking if the previous content is not empty
-    setLoading(true);
-    if (currStoryIndex - 1 >= 0) {
-      let data = [...content];
-      data[currStoryIndex].finished = false;
-      setContent(data);
-      setCurrentStoryIndex(currStoryIndex - 1);
-      progress.setValue(0);
-    } else {
-      // the previous content is empty
-      close(ActionStates.PREVIOUS);
-    }
-  };
-
-  const close = (state: ActionStates) => {
-    let data = [...content];
-    data.map((x) => (x.finished = false));
-    setContent(data);
-    progress.setValue(0);
-    if (currPageIndex === props.index) {
-      if (props.onFinish) {
-        props.onFinish(state);
-      }
-    }
   };
 
   const renderSwipeButton = () => {
@@ -224,10 +256,15 @@ const StoryListItem = (props: Props) => {
       });
 
     return (
-      <AutoHeightImage
+      <Image
         source={{ uri: currStory.image }}
-        width={width}
-        style={styles.image}
+        style={[
+          styles.image,
+          {
+            width: currImageWidth,
+            height: currImageHeight,
+          },
+        ]}
         onLoadEnd={startStory}
       />
     );
@@ -336,6 +373,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   image: {
+    maxWidth: width,
     maxHeight: height - getStatusBarHeight(true),
   },
   backgroundContainer: {
@@ -345,6 +383,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   spinnerContainer: {
     zIndex: -100,
