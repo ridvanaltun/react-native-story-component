@@ -141,10 +141,17 @@ const StoryListItem = (props: Props) => {
         const isImageWidthBiggerThenPhone = imageWidth > width;
 
         if (isImageWidthBiggerThenPhone) {
+          newWidth = width;
           newHeight = Number(imageHeight)
             ? Math.floor(width * (imageHeight / imageWidth))
             : width;
-          newWidth = width;
+        }
+
+        const isNewHeightBiggerThenPhone = newHeight > height;
+
+        if (isNewHeightBiggerThenPhone) {
+          newWidth = height * (imageWidth / imageHeight);
+          newHeight = height;
         }
 
         setCurrImageWidth(newWidth);
