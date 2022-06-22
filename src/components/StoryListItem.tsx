@@ -260,6 +260,8 @@ const StoryListItem = (props: Props) => {
       return props.customStoryImage({
         image: currStory.image,
         onLoadEnd: startStory,
+        imageWidth: currImageWidth,
+        imageHeight: currImageHeight,
       });
 
     return (
