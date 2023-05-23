@@ -1,5 +1,11 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { Dimensions, View, Platform, StyleSheet } from 'react-native';
+import {
+  Dimensions,
+  View,
+  Platform,
+  StatusBar,
+  StyleSheet,
+} from 'react-native';
 import Modal from 'react-native-modalbox';
 
 import StoryListItem from './StoryListItem';
@@ -236,6 +242,7 @@ const Story = (props: Props) => {
         backButtonClose
         coverScreen={true}
       >
+        <StatusBar barStyle="light-content" />
         {renderCube()}
       </Modal>
     </>
