@@ -210,10 +210,7 @@ class CubeNavigationHorizontal extends React.Component {
   };
 
   _renderChild = (child, i) => {
-    let expandStyle = this.props.expandView
-      ? { paddingTop: 100, paddingBottom: 100, height: height + 200 }
-      : { width, height };
-    let style = [child.props.style, expandStyle];
+    let style = [child.props.style, { width, height }];
     let props = {
       i,
       style,
@@ -227,7 +224,7 @@ class CubeNavigationHorizontal extends React.Component {
           { backgroundColor: 'transparent' },
           this._getTransformsFor(i, false),
         ]}
-        key={`child- ${i}`}
+        key={`cube-child-${i}`}
         pointerEvents={this.state.currentPage == i ? 'auto' : 'none'}
       >
         {element}
@@ -251,24 +248,15 @@ class CubeNavigationHorizontal extends React.Component {
   };
 
   render() {
-    let expandStyle = this.props.expandView
-      ? { top: -100, left: 0, width, height: height + 200 }
-      : { width, height };
-
     return (
       <Animated.View
-        style={[{ position: 'absolute' }]}
+        style={styles.container}
         ref={(view) => {
           this._scrollView = view;
         }}
         {...this._panResponder.panHandlers}
       >
-        <Animated.View
-          style={[
-            { backgroundColor: '#000', position: 'absolute', width, height },
-            expandStyle,
-          ]}
-        >
+        <Animated.View style={styles.content}>
           {this.props.children.map(this._renderChild)}
         </Animated.View>
       </Animated.View>
@@ -281,14 +269,24 @@ CubeNavigationHorizontal.propTypes = {
   callbackOnSwipe: PropTypes.func,
   scrollLockPage: PropTypes.number,
   responderCaptureDx: PropTypes.number,
-  expandView: PropTypes.bool,
   loop: PropTypes.bool,
 };
 
 CubeNavigationHorizontal.defaultProps = {
   responderCaptureDx: 60,
-  expandView: false,
   loop: false,
 };
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+  },
+  content: {
+    backgroundColor: '#000',
+    position: 'absolute',
+    width,
+    height,
+  },
+});
 
 export default CubeNavigationHorizontal;

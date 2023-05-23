@@ -240,7 +240,7 @@ const Story = (props: Props) => {
         swipeToClose
         swipeArea={250}
         backButtonClose
-        coverScreen={true}
+        coverScreen
       >
         <StatusBar barStyle="light-content" />
         {renderCube()}

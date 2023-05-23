@@ -7,9 +7,9 @@ import {
   StyleSheet,
   LogBox,
 } from 'react-native';
-import { faker } from '@faker-js/faker';
-
 import Story from 'react-native-story-component';
+
+import { faker } from '@faker-js/faker';
 
 const ignoreWarnings = () => {
   const requireCycle = 'Require cycles are allowed';

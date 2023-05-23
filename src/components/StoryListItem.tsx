@@ -25,12 +25,13 @@ import { usePrevious } from '../helpers/StateHelpers';
 import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
 
 import { ActionStates } from '../index';
+import StoryImage from './StoryImage';
 import type {
   IUserStoryItem,
   ICustomProfileBanner,
   ICustomStoryImage,
 } from '../index';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { getStatusBarHeight } from 'react-native-safearea-height';
 
 const { width, height } = Dimensions.get('window');
 
@@ -265,15 +266,10 @@ const StoryListItem = (props: Props) => {
       });
 
     return (
-      <Image
+      <StoryImage
         source={{ uri: currStory.image }}
-        style={[
-          styles.image,
-          {
-            width: currImageWidth,
-            height: currImageHeight,
-          },
-        ]}
+        width={currImageWidth}
+        height={currImageHeight}
         onLoadEnd={startStory}
       />
     );
@@ -380,10 +376,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-  },
-  image: {
-    maxWidth: width,
-    maxHeight: height - getStatusBarHeight(true),
   },
   backgroundContainer: {
     position: 'absolute',

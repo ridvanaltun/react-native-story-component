@@ -57,7 +57,7 @@
   "dependencies": {
     "prop-types": "^15.8.1",
     "react-native-modalbox": "^2.0.2",
-    "react-native-status-bar-height": "^2.6.0",
+    "react-native-safearea-height": "^1.0.6",
     "react-native-swipe-gestures": "^1.0.5"
   },
   "devDependencies": {
