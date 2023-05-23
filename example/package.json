@@ -1,32 +1,27 @@
 {
   "name": "react-native-story-component-example",
-  "description": "Example app for react-native-story-component",
-  "version": "0.0.1",
-  "private": true,
-  "main": "index",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "start": "expo start",
-    "test": "jest"
+    "web": "expo start --web"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.1.0",
-    "expo": "^45.0.4",
-    "expo-splash-screen": "~0.15.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-native": "0.68.2",
-    "react-native-unimodules": "~0.12.0",
-    "react-native-web": "0.17.7"
+    "@faker-js/faker": "^7.6.0",
+    "expo": "~48.0.15",
+    "expo-status-bar": "~1.4.4",
+    "react": "18.2.0",
+    "react-native": "0.71.8",
+    "react-dom": "18.2.0",
+    "react-native-web": "~0.18.10"
   },
   "devDependencies": {
-    "@babel/core": "~7.12.10",
-    "@babel/runtime": "^7.9.6",
-    "@types/react": "~16.9.35",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "babel-preset-expo": "8.3.0",
-    "expo-cli": "^5.4.6"
-  }
+    "@babel/core": "^7.20.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "@expo/webpack-config": "^0.17.2",
+    "babel-loader": "^8.1.0"
+  },
+  "private": true
 }

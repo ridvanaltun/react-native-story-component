@@ -62,7 +62,7 @@ const StoryListItem = (props: Props) => {
   const currStory = useMemo(
     () => content[currStoryIndex],
     [content, currStoryIndex]
-  );
+  ) as IUserStoryItem;
 
   const currPageIndex = useMemo(() => props.currentPage, [props.currentPage]);
 
@@ -96,7 +96,7 @@ const StoryListItem = (props: Props) => {
     setLoading(true);
     if (currStoryIndex !== content.length - 1) {
       let data = [...content];
-      data[currStoryIndex].finished = true;
+      (data[currStoryIndex] as IUserStoryItem).finished = true;
       setContent(data);
       setCurrStoryIndex(currStoryIndex + 1);
       progress.setValue(0);
@@ -111,7 +111,7 @@ const StoryListItem = (props: Props) => {
     setLoading(true);
     if (currStoryIndex - 1 >= 0) {
       let data = [...content];
-      data[currStoryIndex].finished = false;
+      (data[currStoryIndex] as IUserStoryItem).finished = false;
       setContent(data);
       setCurrStoryIndex(currStoryIndex - 1);
       progress.setValue(0);
@@ -133,7 +133,7 @@ const StoryListItem = (props: Props) => {
 
   const startStory = useCallback(() => {
     Image.getSize(
-      content[currStoryIndex].image,
+      (content[currStoryIndex] as IUserStoryItem).image,
       (imageWidth, imageHeight) => {
         let newHeight = imageHeight;
         let newWidth = imageWidth;
@@ -203,7 +203,7 @@ const StoryListItem = (props: Props) => {
       const nextStory = content[currStoryIndex + 1];
       const prevStory = content[currStoryIndex - 1];
 
-      if (isNextStory && prevStory.id === currStory.id) {
+      if (isNextStory && (prevStory as IUserStoryItem).id === currStory.id) {
         startStory();
       } else if (isPrevStory && nextStory?.id === currStory.id) {
         startStory();
@@ -307,7 +307,7 @@ const StoryListItem = (props: Props) => {
                     flex:
                       currStoryIndex === index
                         ? progress
-                        : content[index].finished
+                        : (content[currStoryIndex] as IUserStoryItem).finished
                         ? 1
                         : 0,
                     height: 2,

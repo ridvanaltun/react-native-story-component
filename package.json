@@ -1,6 +1,5 @@
 {
   "name": "react-native-story-component",
-  "title": "React Native Story Component",
   "version": "0.5.0",
   "description": "Story component for React Native.",
   "main": "lib/commonjs/index",
@@ -9,11 +8,23 @@
   "react-native": "src/index",
   "source": "src/index",
   "files": [
-    "README.md",
     "src",
     "lib",
-    "!example",
-    "!lib/typescript/example"
+    "android",
+    "ios",
+    "cpp",
+    "*.podspec",
+    "!lib/typescript/example",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
   ],
   "scripts": {
     "test": "jest --passWithNoTests",
@@ -34,14 +45,14 @@
     "react-native",
     "story"
   ],
-  "author": {
-    "name": "Rıdvan Altun",
-    "email": "ridvanaltun@outlook.com"
+  "author": "Rıdvan Altun <ridvanaltun@outlook.com> (https://github.com/ridvanaltun)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ridvanaltun/react-native-story-component/issues"
   },
-  "readmeFilename": "README.md",
-  "peerDependencies": {
-    "react": ">=16.8.1",
-    "react-native": ">=0.60.0-rc.0 <1.0.x"
+  "homepage": "https://github.com/ridvanaltun/react-native-story-component#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "prop-types": "^15.8.1",
@@ -50,29 +61,51 @@
     "react-native-swipe-gestures": "^1.0.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.1",
-    "@commitlint/config-conventional": "^17.0.0",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "@release-it/conventional-changelog": "^5.0.0",
-    "@types/jest": "^27.5.1",
-    "@types/react": "^18.0.9",
-    "@types/react-native": "^0.67.7",
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@react-native-community/eslint-config": "^3.0.2",
+    "@release-it/conventional-changelog": "^5.1.1",
+    "@types/jest": "^28.1.2",
+    "@types/react": "~17.0.21",
+    "@types/react-native": "0.70.0",
     "@types/react-native-modalbox": "^1.4.10",
     "auto-changelog": "^2.4.0",
-    "commitizen": "^4.2.4",
-    "commitlint": "^17.0.1",
+    "commitizen": "^4.3.0",
+    "commitlint": "^17.6.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-prettier": "^3.4.1",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^4.3.8",
-    "jest": "^28.1.0",
+    "jest": "^28.1.1",
     "prettier": "^2.6.2",
-    "react": "^16.9.0",
-    "react-native": "^0.61.5",
-    "react-native-builder-bob": "^0.18.2",
-    "release-it": "^15.0.0",
+    "react": "18.2.0",
+    "react-native": "0.71.8",
+    "react-native-builder-bob": "^0.20.0",
+    "release-it": "^15.10.3",
     "typescript": "^4.7.2"
+  },
+  "resolutions": {
+    "@types/react": "17.0.21"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "packageManager": "^yarn@1.22.15",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn lint && yarn typescript"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "jest": {
     "preset": "react-native",
@@ -81,21 +114,10 @@
       "<rootDir>/lib/"
     ]
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
-    }
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "eslintConfig": {
     "root": true,

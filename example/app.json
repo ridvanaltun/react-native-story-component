@@ -1,23 +1,28 @@
 {
-  "name": "react-native-story-component-example",
-  "displayName": "Story Component Example",
   "expo": {
     "name": "react-native-story-component-example",
     "slug": "react-native-story-component-example",
-    "description": "Example app for react-native-story-component",
-    "privacy": "public",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "githubUrl": "https://github.com/ridvanaltun/react-native-story-component/tree/master/example"
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }

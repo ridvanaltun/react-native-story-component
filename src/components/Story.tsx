@@ -83,7 +83,7 @@ const Story = (props: Props) => {
   };
 
   const handleSeen = useCallback(() => {
-    const seen = selectedData[currentPage];
+    const seen = selectedData[currentPage] as IUserStory;
     const seenIndex = dataState.indexOf(seen);
     if (seenIndex > 0) {
       if (!dataState[seenIndex]?.seen) {
@@ -91,7 +91,7 @@ const Story = (props: Props) => {
         dataState[seenIndex] = {
           ...dataState[seenIndex],
           seen: true,
-        };
+        } as IUserStory;
         setDataState(tempData);
       }
     }
@@ -113,7 +113,7 @@ const Story = (props: Props) => {
           setIsModalOpen(false);
           setCurrentPage(0);
           if (onClose) {
-            onClose(selectedData[selectedData.length - 1]);
+            onClose(selectedData[selectedData.length - 1] as IUserStory);
           }
         }
       } else if (state === ActionStates.PREVIOUS) {

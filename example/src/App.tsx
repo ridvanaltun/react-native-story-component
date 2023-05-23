@@ -1,8 +1,22 @@
-import React from 'react';
-import { Text, View, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  LogBox,
+} from 'react-native';
 import { faker } from '@faker-js/faker';
 
 import Story from 'react-native-story-component';
+
+const ignoreWarnings = () => {
+  const requireCycle = 'Require cycles are allowed';
+
+  // Ignore yellow box warnings
+  LogBox.ignoreLogs([requireCycle]);
+};
 
 const createStories = () => {
   const USER_COUNT = 5;
@@ -11,7 +25,7 @@ const createStories = () => {
   return [...Array(USER_COUNT).keys()].map((i) => ({
     id: `user-${i}`,
     avatar: faker.image.avatar(),
-    name: faker.name.findName(),
+    name: faker.name.fullName(),
     // seen: Math.random() < 0.5,
     stories: [...Array(USER_STORY_COUNT).keys()].map((y) => ({
       id: `story-${i}-${y}`,
@@ -23,6 +37,10 @@ const createStories = () => {
 };
 
 const App = () => {
+  useEffect(() => {
+    ignoreWarnings();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
