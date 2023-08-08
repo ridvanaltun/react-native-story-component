@@ -18,11 +18,11 @@ import { isNullOrWhitespace, isUrl } from '../helpers/ValidationHelpers';
 
 import { ActionStates } from '../index';
 import type {
-  IUserStory,
-  ICustomStoryView,
-  ICustomStoryList,
-  ICustomProfileBanner,
-  ICustomStoryImage,
+  UserStory,
+  CustomStoryView,
+  CustomStoryList,
+  CustomProfileBanner,
+  CustomStoryImage,
 } from '../index';
 import type { TextStyle, ViewStyle } from 'react-native';
 
@@ -30,28 +30,28 @@ declare module '../animations/CubeNavigationHorizontal' {}
 
 declare module '../animations/AndroidCubeEffect' {}
 
-type Props = {
-  data: IUserStory[];
+type StoryProps = {
+  data: UserStory[];
   storyListStyle?: ViewStyle;
   unPressedBorderColor?: string;
   pressedBorderColor?: string;
-  onClose?: (item: IUserStory) => void;
-  onStart?: (item: IUserStory) => void;
+  onClose?: (item: UserStory) => void;
+  onStart?: (item: UserStory) => void;
   duration?: number;
   swipeText?: string;
   customSwipeUpButton?: () => React.ReactNode;
   customCloseButton?: () => React.ReactNode;
-  customStoryList?: (props: ICustomStoryList) => React.ReactNode;
-  customStoryView?: (props: ICustomStoryView) => React.ReactNode;
-  customProfileBanner?: (props: ICustomProfileBanner) => React.ReactNode;
-  customStoryImage?: (props: ICustomStoryImage) => React.ReactNode;
+  customStoryList?: (props: CustomStoryList) => React.ReactNode;
+  customStoryView?: (props: CustomStoryView) => React.ReactNode;
+  customProfileBanner?: (props: CustomProfileBanner) => React.ReactNode;
+  customStoryImage?: (props: CustomStoryImage) => React.ReactNode;
   avatarSize?: number;
   showAvatarText?: boolean;
   showProfileBanner?: boolean;
   avatarTextStyle?: TextStyle;
 };
 
-const Story = (props: Props) => {
+const Story = (props: StoryProps) => {
   const {
     data,
     unPressedBorderColor,
@@ -75,10 +75,10 @@ const Story = (props: Props) => {
   const [dataState, setDataState] = useState(data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedData, setSelectedData] = useState<IUserStory[]>([]);
+  const [selectedData, setSelectedData] = useState<UserStory[]>([]);
   const cubeRef = useRef();
 
-  const _handleStoryItemPress = (item: IUserStory, index: number) => {
+  const _handleStoryItemPress = (item: UserStory, index: number) => {
     const newData = dataState.slice(index);
 
     if (onStart) onStart(item);
@@ -89,7 +89,7 @@ const Story = (props: Props) => {
   };
 
   const handleSeen = useCallback(() => {
-    const seen = selectedData[currentPage] as IUserStory;
+    const seen = selectedData[currentPage] as UserStory;
     const seenIndex = dataState.indexOf(seen);
     if (seenIndex > 0) {
       if (!dataState[seenIndex]?.seen) {
@@ -97,7 +97,7 @@ const Story = (props: Props) => {
         dataState[seenIndex] = {
           ...dataState[seenIndex],
           seen: true,
-        } as IUserStory;
+        } as UserStory;
         setDataState(tempData);
       }
     }
@@ -119,7 +119,7 @@ const Story = (props: Props) => {
           setIsModalOpen(false);
           setCurrentPage(0);
           if (onClose) {
-            onClose(selectedData[selectedData.length - 1] as IUserStory);
+            onClose(selectedData[selectedData.length - 1] as UserStory);
           }
         }
       } else if (state === ActionStates.PREVIOUS) {
@@ -136,7 +136,7 @@ const Story = (props: Props) => {
     }
   };
 
-  const onClosePress = (story: IUserStory) => {
+  const onClosePress = (story: UserStory) => {
     setIsModalOpen(false);
     if (onClose) onClose(story);
   };

@@ -3,19 +3,19 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import StoryCircleListItem from './StoryCircleListItem';
 
 import type { TextStyle } from 'react-native';
-import type { IUserStory } from '../index';
+import type { UserStory } from '../index';
 
-interface Props {
-  data: IUserStory[];
-  handleStoryItemPress?: (item: IUserStory, index: number) => void;
+interface StoryCircleListViewProps {
+  data: UserStory[];
+  handleStoryItemPress?: (item: UserStory, index: number) => void;
   unPressedBorderColor?: string;
   pressedBorderColor?: string;
   avatarSize?: number;
-  showText?: Boolean;
+  showText?: boolean;
   textStyle?: TextStyle;
 }
 
-const StoryCircleListView = (props: Props) => {
+const StoryCircleListView = (props: StoryCircleListViewProps) => {
   const {
     data,
     handleStoryItemPress,

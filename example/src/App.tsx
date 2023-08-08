@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -36,11 +36,17 @@ const createStories = () => {
   }));
 };
 
-const App = () => {
-  useEffect(() => {
-    ignoreWarnings();
-  }, []);
+const CustomSwipeButton = () => {
+  return (
+    <View>
+      <Text>Swipe</Text>
+    </View>
+  );
+};
 
+ignoreWarnings();
+
+const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
@@ -59,11 +65,7 @@ const App = () => {
         //     </View>
         //   );
         // }}
-        customSwipeUpButton={() => (
-          <View>
-            <Text>Swipe</Text>
-          </View>
-        )}
+        customSwipeUpButton={CustomSwipeButton}
       />
     </SafeAreaView>
   );

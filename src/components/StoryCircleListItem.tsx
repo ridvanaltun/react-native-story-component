@@ -13,19 +13,19 @@ import { isUrl } from '../helpers/ValidationHelpers';
 import { usePrevious } from '../helpers/StateHelpers';
 
 import type { TextStyle } from 'react-native';
-import type { IUserStory } from '../index';
+import type { UserStory } from '../index';
 
-interface Props {
-  item: IUserStory;
-  showText?: Boolean;
+interface StoryCircleListItemProps {
+  item: UserStory;
+  showText?: boolean;
   textStyle?: TextStyle;
   unPressedBorderColor?: string;
   pressedBorderColor?: string;
-  handleStoryItemPress?: (item: IUserStory) => void;
+  handleStoryItemPress?: (item: UserStory) => void;
   avatarSize?: number;
 }
 
-const StoryCircleListItem = (props: Props) => {
+const StoryCircleListItem = (props: StoryCircleListItemProps) => {
   const {
     item,
     unPressedBorderColor,
@@ -46,7 +46,7 @@ const StoryCircleListItem = (props: Props) => {
     }
   }, [prevSeen, props?.item?.seen]);
 
-  const _handleItemPress = (story: IUserStory) => {
+  const _handleItemPress = (story: UserStory) => {
     if (handleStoryItemPress) handleStoryItemPress(story);
 
     setIsPressed(true);

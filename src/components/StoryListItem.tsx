@@ -27,9 +27,9 @@ import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
 import { ActionStates } from '../index';
 import StoryImage from './StoryImage';
 import type {
-  IUserStoryItem,
-  ICustomProfileBanner,
-  ICustomStoryImage,
+  UserStoryItem,
+  CustomProfileBanner,
+  CustomStoryImage,
 } from '../index';
 import { getStatusBarHeight } from 'react-native-safearea-height';
 
@@ -45,9 +45,9 @@ type Props = {
   swipeText?: string;
   customSwipeUpButton?: () => React.ReactNode;
   customCloseButton?: () => React.ReactNode;
-  customProfileBanner?: (props: ICustomProfileBanner) => React.ReactNode;
-  customStoryImage?: (props: ICustomStoryImage) => React.ReactNode;
-  stories: IUserStoryItem[];
+  customProfileBanner?: (props: CustomProfileBanner) => React.ReactNode;
+  customStoryImage?: (props: CustomStoryImage) => React.ReactNode;
+  stories: UserStoryItem[];
   showProfileBanner?: boolean;
   currentPage: number;
 };
@@ -63,7 +63,7 @@ const StoryListItem = (props: Props) => {
   const currStory = useMemo(
     () => content[currStoryIndex],
     [content, currStoryIndex]
-  ) as IUserStoryItem;
+  ) as UserStoryItem;
 
   const currPageIndex = useMemo(() => props.currentPage, [props.currentPage]);
 
@@ -97,7 +97,7 @@ const StoryListItem = (props: Props) => {
     setLoading(true);
     if (currStoryIndex !== content.length - 1) {
       let data = [...content];
-      (data[currStoryIndex] as IUserStoryItem).finished = true;
+      (data[currStoryIndex] as UserStoryItem).finished = true;
       setContent(data);
       setCurrStoryIndex(currStoryIndex + 1);
       progress.setValue(0);
@@ -112,7 +112,7 @@ const StoryListItem = (props: Props) => {
     setLoading(true);
     if (currStoryIndex - 1 >= 0) {
       let data = [...content];
-      (data[currStoryIndex] as IUserStoryItem).finished = false;
+      (data[currStoryIndex] as UserStoryItem).finished = false;
       setContent(data);
       setCurrStoryIndex(currStoryIndex - 1);
       progress.setValue(0);
@@ -134,7 +134,7 @@ const StoryListItem = (props: Props) => {
 
   const startStory = useCallback(() => {
     Image.getSize(
-      (content[currStoryIndex] as IUserStoryItem).image,
+      (content[currStoryIndex] as UserStoryItem).image,
       (imageWidth, imageHeight) => {
         let newHeight = imageHeight;
         let newWidth = imageWidth;
@@ -143,7 +143,7 @@ const StoryListItem = (props: Props) => {
 
         if (isImageWidthBiggerThenPhone) {
           newWidth = width;
-          newHeight = Number(imageHeight)
+          newHeight = imageHeight
             ? Math.floor(width * (imageHeight / imageWidth))
             : width;
         }
@@ -204,7 +204,7 @@ const StoryListItem = (props: Props) => {
       const nextStory = content[currStoryIndex + 1];
       const prevStory = content[currStoryIndex - 1];
 
-      if (isNextStory && (prevStory as IUserStoryItem).id === currStory.id) {
+      if (isNextStory && (prevStory as UserStoryItem).id === currStory.id) {
         startStory();
       } else if (isPrevStory && nextStory?.id === currStory.id) {
         startStory();
@@ -303,7 +303,7 @@ const StoryListItem = (props: Props) => {
                     flex:
                       currStoryIndex === index
                         ? progress
-                        : (content[currStoryIndex] as IUserStoryItem).finished
+                        : (content[currStoryIndex] as UserStoryItem).finished
                         ? 1
                         : 0,
                     height: 2,

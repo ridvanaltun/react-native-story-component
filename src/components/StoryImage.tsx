@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  Image,
-  Dimensions,
-  StyleSheet,
-  ImageSourcePropType,
-} from 'react-native';
+import { Image, StyleSheet, ImageSourcePropType } from 'react-native';
 
 import { getStatusBarHeight } from 'react-native-safearea-height';
 
-const { width, height } = Dimensions.get('window');
+import Computed from '../helpers/Computed';
 
 interface StoryImageProps {
   onLoadEnd: () => void;
@@ -35,8 +30,8 @@ const StoryImage = ({ onLoadEnd, height, width, source }: StoryImageProps) => {
 
 const styles = StyleSheet.create({
   image: {
-    maxWidth: width,
-    maxHeight: height - getStatusBarHeight(true),
+    maxWidth: Computed.DEVICE_WIDTH,
+    maxHeight: Computed.DEVICE_HEIGHT - getStatusBarHeight(true),
   },
 });
 

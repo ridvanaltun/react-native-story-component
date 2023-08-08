@@ -5,18 +5,18 @@ export enum ActionStates {
   NEXT,
 }
 
-export interface IUserStory {
+export interface UserStory {
   id: number | string;
   avatar: any; // @todo
   name: string;
-  stories: IUserStoryItem[];
-  seen?: Boolean;
+  stories: UserStoryItem[];
+  seen?: boolean;
   extra?: {
     [key: string]: any;
   };
 }
 
-export interface IUserStoryItem {
+export interface UserStoryItem {
   id: number | string;
   image: string;
   onPress?: () => void;
@@ -24,29 +24,29 @@ export interface IUserStoryItem {
   finished?: boolean;
 }
 
-export interface ICustomStoryView {
+export interface CustomStoryView {
   index: number;
-  data: IUserStory;
+  data: UserStory;
   currentPage: number;
   changeStory: (state: ActionStates) => void;
   close: () => void;
 }
 
-export interface ICustomStoryList {
-  data: IUserStory[];
-  onStoryPress: (item: IUserStory, index: number) => void;
+export interface CustomStoryList {
+  data: UserStory[];
+  onStoryPress: (item: UserStory, index: number) => void;
 }
 
-export interface ICustomProfileBanner {
+export interface CustomProfileBanner {
   image: any;
   name: string;
 }
 
-export interface ICustomStoryImage {
-  image: String;
+export interface CustomStoryImage {
+  image: string;
   onLoadEnd: () => void;
-  imageWidth: Number;
-  imageHeight: Number;
+  imageWidth: number;
+  imageHeight: number;
 }
 
 export default Story;
