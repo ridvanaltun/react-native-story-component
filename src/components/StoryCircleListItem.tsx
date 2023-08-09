@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { isUrl } from '../helpers/ValidationHelpers';
-import { usePrevious } from '../helpers/StateHelpers';
+import usePrevious from '../helpers/usePrevious';
 
 import type { TextStyle } from 'react-native';
 import type { UserStory } from '../index';

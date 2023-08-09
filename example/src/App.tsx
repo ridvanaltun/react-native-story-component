@@ -67,6 +67,9 @@ const App = () => {
         //     </View>
         //   );
         // }}
+        onImagesPrefetched={(status) => {
+          console.log('is all images prefetched ->', status);
+        }}
         customSwipeUpButton={CustomSwipeButton}
       />
     </SafeAreaView>

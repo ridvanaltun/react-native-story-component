@@ -5,6 +5,7 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
+  Image,
 } from 'react-native';
 import Modal from 'react-native-modalbox';
 
@@ -15,6 +16,7 @@ import AndroidCubeEffect from '../animations/AndroidCubeEffect';
 import CubeNavigationHorizontal from '../animations/CubeNavigationHorizontal';
 
 import { isNullOrWhitespace, isUrl } from '../helpers/ValidationHelpers';
+import useMountEffect from '../helpers/useMountEffect';
 
 import { ActionStates } from '../index';
 import type {
@@ -46,6 +48,8 @@ interface StoryProps {
   showAvatarText?: boolean;
   showProfileBanner?: boolean;
   avatarTextStyle?: TextStyle;
+  prefetchImages?: boolean;
+  onImagesPrefetched?: (allImagesPrefethed: boolean) => void;
 }
 
 const Story = (props: StoryProps) => {
@@ -67,6 +71,8 @@ const Story = (props: StoryProps) => {
     showAvatarText,
     showProfileBanner,
     avatarTextStyle,
+    prefetchImages,
+    onImagesPrefetched,
   } = props;
 
   const cubeRef = useRef<CubeAnimationHandle>(null);
@@ -100,6 +106,38 @@ const Story = (props: StoryProps) => {
       }
     }
   }, [currentPage, dataState, selectedData]);
+
+  useMountEffect(() => {
+    if (prefetchImages) {
+      let preFetchTasks: Promise<boolean>[] = [];
+      const images = data.flatMap((story) => {
+        const storyImages = story.stories.map((storyItem) => {
+          return storyItem.image;
+        });
+
+        return storyImages;
+      });
+
+      images.forEach((image) => {
+        preFetchTasks.push(Image.prefetch(image));
+      });
+
+      Promise.all(preFetchTasks).then((results) => {
+        let downloadedAll = true;
+
+        results.forEach((result) => {
+          if (!result) {
+            //error occurred downloading a pic
+            downloadedAll = false;
+          }
+        });
+
+        if (onImagesPrefetched) {
+          onImagesPrefetched(downloadedAll);
+        }
+      });
+    }
+  });
 
   useEffect(() => {
     handleSeen();
@@ -249,6 +287,7 @@ const Story = (props: StoryProps) => {
 Story.defaultProps = {
   showAvatarText: true,
   showProfileBanner: true,
+  prefetchImages: true,
 };
 
 const styles = StyleSheet.create({

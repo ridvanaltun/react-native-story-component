@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
-import { usePrevious } from '../helpers/StateHelpers';
+import usePrevious from '../helpers/usePrevious';
 import { isNullOrWhitespace } from '../helpers/ValidationHelpers';
 
 import { ActionStates } from '../index';

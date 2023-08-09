@@ -29,26 +29,27 @@ npm i react-native-story-component
 
 ## Props
 
-| Name                 | Description                              | Type                                            | Default Value |
-| :------------------- | :--------------------------------------- | :---------------------------------------------- | :-----------: |
-| data                 | Array of stories.                        | UserStory[]                                     |               |
-| unPressedBorderColor | Unpressed border color of profile circle | color                                           |      red      |
-| pressedBorderColor   | Pressed border color of profile circle   | color                                           |     grey      |
-| onClose              | Todo when close                          | (item: UserStory) => void                       |     null      |
-| onStart              | Todo when start                          | (item: UserStory) => void                       |     null      |
-| duration             | Per story duration in seconds            | number                                          |      10       |
-| swipeText            | Text of swipe component                  | string                                          |   Swipe Up    |
-| customSwipeUpButton  | Custom component for swipe area          | () => ReactNode                                 |               |
-| customCloseButton    | Custom component for close button        | () => ReactNode                                 |               |
-| customStoryList      | Custom component for story list          | (props: CustomStoryList) => React.ReactNode     |               |
-| customStoryView      | Custom component for story view          | (props: CustomStoryView) => React.ReactNode     |               |
-| customProfileBanner  | Custom component for profile banner      | (props: CustomProfileBanner) => React.ReactNode |               |
-| customStoryImage     | Custom component for story image         | (props: CustomStoryImage) => React.ReactNode    |               |
-| avatarSize           | Size of avatar circle                    | number                                          |      60       |
-| showAvatarText       | Show or hide avatar text                 | bool                                            |     true      |
-| showProfileBanner    | Show or hide profile banner              | bool                                            |     true      |
-| textStyle            | Avatar text style                        | TextStyle                                       |               |
-| storyListStyle       | Story list view style                    | ViewStyle                                       |               |
+| Name                 | Description                               | Type                                            | Default Value |
+| :------------------- | :---------------------------------------- | :---------------------------------------------- | :-----------: |
+| data                 | Array of stories.                         | UserStory[]                                     |               |
+| unPressedBorderColor | Unpressed border color of profile circle  | color                                           |      red      |
+| pressedBorderColor   | Pressed border color of profile circle    | color                                           |     grey      |
+| onClose              | Todo when close                           | (item: UserStory) => void                       |     null      |
+| onStart              | Todo when start                           | (item: UserStory) => void                       |     null      |
+| duration             | Per story duration in seconds             | number                                          |      10       |
+| swipeText            | Text of swipe component                   | string                                          |   Swipe Up    |
+| customSwipeUpButton  | Custom component for swipe area           | () => ReactNode                                 |               |
+| customCloseButton    | Custom component for close button         | () => ReactNode                                 |               |
+| customStoryList      | Custom component for story list           | (props: CustomStoryList) => React.ReactNode     |               |
+| customStoryView      | Custom component for story view           | (props: CustomStoryView) => React.ReactNode     |               |
+| customProfileBanner  | Custom component for profile banner       | (props: CustomProfileBanner) => React.ReactNode |               |
+| customStoryImage     | Custom component for story image          | (props: CustomStoryImage) => React.ReactNode    |               |
+| avatarSize           | Size of avatar circle                     | number                                          |      60       |
+| showAvatarText       | Show or hide avatar text                  | bool                                            |     true      |
+| showProfileBanner    | Show or hide profile banner               | bool                                            |     true      |
+| textStyle            | Avatar text style                         | TextStyle                                       |               |
+| prefetchImages       | Prefetch story images                     | bool                                            |     true      |
+| onImagesPrefetched   | Callback function for prefetching process | (allImagesPrefetched: bool) => void             |               |
 
 ## Usage
 
