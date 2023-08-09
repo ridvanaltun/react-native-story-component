@@ -31,11 +31,11 @@ import type {
   CustomProfileBanner,
   CustomStoryImage,
 } from '../index';
-import { getStatusBarHeight } from 'react-native-safearea-height';
+import AnimationBar from './AnimationBar';
 
 const { width, height } = Dimensions.get('window');
 
-type Props = {
+interface StoryListItemProps {
   index: number;
   profileName: string;
   profileImage: any; // @todo
@@ -50,9 +50,9 @@ type Props = {
   stories: UserStoryItem[];
   showProfileBanner?: boolean;
   currentPage: number;
-};
+}
 
-const StoryListItem = (props: Props) => {
+const StoryListItem = (props: StoryListItemProps) => {
   const [loading, setLoading] = useState(true);
   const [pressed, setPressed] = useState(false);
   const [currStoryIndex, setCurrStoryIndex] = useState(0);
@@ -178,6 +178,7 @@ const StoryListItem = (props: Props) => {
     }
 
     let data = [...content];
+
     data.map((x, i) => {
       if (isPrevious) {
         x.finished = true;
@@ -294,26 +295,11 @@ const StoryListItem = (props: Props) => {
         )}
       </SafeAreaView>
       <View style={styles.content}>
-        <View style={styles.animationBarContainer}>
-          {content.map((_, index) => {
-            return (
-              <View key={index} style={styles.animationBackground}>
-                <Animated.View
-                  style={{
-                    flex:
-                      currStoryIndex === index
-                        ? progress
-                        : (content[currStoryIndex] as UserStoryItem).finished
-                        ? 1
-                        : 0,
-                    height: 2,
-                    backgroundColor: '#FFF',
-                  }}
-                />
-              </View>
-            );
-          })}
-        </View>
+        <AnimationBar
+          currStoryIndex={currStoryIndex}
+          stories={content}
+          progress={progress}
+        />
         <View style={styles.userContainer}>
           <View style={styles.profileContainer}>{renderProfileBanner()}</View>
           <TouchableOpacity
@@ -398,19 +384,6 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'column',
     flex: 1,
-  },
-  animationBarContainer: {
-    flexDirection: 'row',
-    paddingTop: 10,
-    paddingHorizontal: 10,
-  },
-  animationBackground: {
-    height: 2,
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'rgba(117, 117, 117, 0.5)',
-    marginHorizontal: 2,
-    marginTop: getStatusBarHeight(true),
   },
   userContainer: {
     height: 50,
