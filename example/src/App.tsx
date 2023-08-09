@@ -46,12 +46,14 @@ const CustomSwipeButton = () => {
 
 ignoreWarnings();
 
+const STORIES = createStories();
+
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <Story
-        data={createStories()}
+        data={STORIES}
         duration={10}
         // customStoryView={({ index }) => {
         //   return (

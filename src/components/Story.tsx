@@ -25,12 +25,9 @@ import type {
   CustomStoryImage,
 } from '../index';
 import type { TextStyle, ViewStyle } from 'react-native';
+import type { CubeAnimationHandle } from '../animations';
 
-declare module '../animations/CubeNavigationHorizontal' {}
-
-declare module '../animations/AndroidCubeEffect' {}
-
-type StoryProps = {
+interface StoryProps {
   data: UserStory[];
   storyListStyle?: ViewStyle;
   unPressedBorderColor?: string;
@@ -49,7 +46,7 @@ type StoryProps = {
   showAvatarText?: boolean;
   showProfileBanner?: boolean;
   avatarTextStyle?: TextStyle;
-};
+}
 
 const Story = (props: StoryProps) => {
   const {
@@ -72,11 +69,12 @@ const Story = (props: StoryProps) => {
     avatarTextStyle,
   } = props;
 
+  const cubeRef = useRef<CubeAnimationHandle>(null);
+
   const [dataState, setDataState] = useState(data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedData, setSelectedData] = useState<UserStory[]>([]);
-  const cubeRef = useRef();
 
   const _handleStoryItemPress = (item: UserStory, index: number) => {
     const newData = dataState.slice(index);
@@ -201,7 +199,6 @@ const Story = (props: StoryProps) => {
     if (Platform.OS === 'ios') {
       return (
         <CubeNavigationHorizontal
-          //@ts-ignore
           ref={cubeRef}
           callBackAfterSwipe={(x: string | number) => {
             if (parseInt(`${x}`, 10) !== currentPage) {

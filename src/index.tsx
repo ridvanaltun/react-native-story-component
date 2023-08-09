@@ -1,5 +1,7 @@
 import { Story } from './components';
 
+declare module './animations/AndroidCubeEffect' {}
+
 export enum ActionStates {
   PREVIOUS,
   NEXT,

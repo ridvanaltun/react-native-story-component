@@ -22,7 +22,6 @@ class AndroidCubeEffect extends React.Component {
 
     this.state = {
       currentPage: 0,
-      scrollLockPage: this.pages[this.props.scrollLockPage],
     };
   }
 
@@ -100,14 +99,6 @@ class AndroidCubeEffect extends React.Component {
         }
       }, 500);
     };
-  }
-
-  UNSAFE_componentWillReceiveProps(props) {
-    this.setState({
-      scrollLockPage: props.scrollLockPage
-        ? this.pages[props.scrollLockPage]
-        : undefined,
-    });
   }
 
   /*
@@ -265,7 +256,6 @@ class AndroidCubeEffect extends React.Component {
 
 AndroidCubeEffect.propTypes = {
   callBackAfterSwipe: PropTypes.func,
-  scrollLockPage: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
